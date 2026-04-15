@@ -167,9 +167,11 @@
         }
     </script>
     <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
+  if ('serviceWorker' in navigator) {
+    // Note the dot before the slash
+    navigator.serviceWorker.register('./sw.js');
+  }
+</script>
 </script>
 
 </body>
