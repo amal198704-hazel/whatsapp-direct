@@ -97,7 +97,18 @@
             </div>
         </div>
     </div>
-
+   
+<div class="modal-overlay" id="confirmOverlay">
+    <div class="modal">
+        <h3 style="margin-bottom:10px;">Delete Template?</h3>
+        <p style="color:#666; margin-bottom:20px;">This action cannot be undone.</p>
+        
+        <div class="modal-buttons">
+            <button class="btn" onclick="closeConfirm()">Cancel</button>
+            <button class="btn btn-save" style="background:#f44336;" onclick="confirmDelete()">Delete</button>
+        </div>
+    </div>
+</div>
     <script>
         let templates = JSON.parse(localStorage.getItem('wa_templates')) || [];
         let selectedIdx = null;
@@ -140,16 +151,27 @@
         }
 
         function deleteMessage() {
-            if (selectedIdx !== null) {
-                templates.splice(selectedIdx, 1);
-                localStorage.setItem('wa_templates', JSON.stringify(templates));
-                selectedIdx = null;
-                renderCards();
-                document.getElementById('btnSend').disabled = true;
-                document.getElementById('btnDel').disabled = true;
-            }
-        }
+    if (selectedIdx !== null) {
+        document.getElementById('confirmOverlay').style.display = 'flex';
+    }
+}
 
+function closeConfirm() {
+    document.getElementById('confirmOverlay').style.display = 'none';
+}
+
+function confirmDelete() {
+    templates.splice(selectedIdx, 1);
+    localStorage.setItem('wa_templates', JSON.stringify(templates));
+
+    selectedIdx = null;
+    renderCards();
+
+    document.getElementById('btnSend').disabled = true;
+    document.getElementById('btnDel').disabled = true;
+
+    closeConfirm();
+}
         function sendToWhatsApp() {
             let phone = document.getElementById('phoneInput').value.replace(/\D/g,'');
             
